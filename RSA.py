@@ -42,12 +42,10 @@ class RSA:
             #moves the bottom tracked formula to the top, and computes the variables of the new bottom formula
             q = old_r//r
             old_r,r = r, old_r - q*r
-            old_s, s = old_s - q*s
-            t = old_t - q*t
+            old_s, s = s, old_s - q*s
+            old_t, t = t, old_t - q*t
 
-
-
-        return
+        return old_r, old_s, old_t
     
     def prime_generator(self):
         primes = [i for i in range(1000,100000) if sympy.isprime(i)]
