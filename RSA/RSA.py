@@ -6,18 +6,20 @@ class RSA:
         self.p, self.q= self.prime_generator()
         self.n = self.p*self.q
         self.publicKey = (self.n, 65537)
-        self.privateKey = (self.n, self.key_generation)
+        self.privateKey = (self.n, self.private_key_generation())
 
     def pow(self, base, exp, mod):
         return base**exp - (base**exp//mod)*mod
 
-    def key_generation(self):
+    def private_key_generation(self):
+        '''
+        we get d by:
+            ed = 1 (mod euler(n))
+        '''
         euler_n = (self.p-1)*(self.q-1)
+        return self.multiplicative_inverse(65537, euler_n)
 
-    def gcd(self,x,y):
-        while x > 0:
-            x,y = y, x%y
-        return y
+
     
     def ext_euclidian_algo(self, A, B):
         '''
@@ -36,7 +38,7 @@ class RSA:
         '''
 
         #sets starting numbers
-        old_s, old_t, s, t, old_r, r= 1, 0, 1, 0, A, B
+        old_s, old_t, s, t, old_r, r= 1, 0, 0, 1, A, B
 
         while r != 0:
             #moves the bottom tracked formula to the top, and computes the variables of the new bottom formula
@@ -45,10 +47,28 @@ class RSA:
             old_s, s = s, old_s - q*s
             old_t, t = t, old_t - q*t
 
+        #when the r reaches 0 return the last recorded top equation variables
         return old_r, old_s, old_t
+
+    def multiplicative_inverse(self,A,B):
+        '''
+        when the values are returned, if A,B are coprime, we should get 1 = s * A + t * B
+
+        reduce this equation mod m you get:
+        sA = 1 (mod B)
+
+        therefore s is by definition the multiplicative inverse
+        however, we always want s in range 0 to B-1, therefore we return s%B just in case s is negative
+        '''
+        gcd, s, t = self.ext_euclidian_algo(A,B)
+        if gcd != 1:
+            raise("invalid A,B value")
+        return s%B
+        
+
     
     def prime_generator(self):
-        primes = [i for i in range(1000,100000) if sympy.isprime(i)]
+        primes = [i for i in range(10000,99999) if sympy.isprime(i)]
         p = random.choice(primes)
         q = random.choice(primes)
         while p == q:
