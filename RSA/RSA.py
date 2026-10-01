@@ -62,9 +62,14 @@ class RSA:
         '''
         gcd, s, t = self.ext_euclidian_algo(A,B)
         if gcd != 1:
-            raise("invalid A,B value")
+            raise ValueError("invalid A,B value")
         return s%B
-        
+
+    def encrypt(self,message):
+        return (message**65537)%self.n
+
+    def decrypt(self,encrypted):
+        return (encrypted**self.privateKey[1])%self.n   
 
     
     def prime_generator(self):
