@@ -9,13 +9,21 @@ class RSA:
         self.privateKey = (self.n, self.private_key_generation())
 
     def pow(self, base, exp, mod):
-        base_exp = 1
+        '''
+        Binomial Exponentiation:
+        in python, calculating x^n straight up takes n-1 calculations.  This is not a problem at lower powers,
+        as n is small.  However, at larger n, e.g. 2^64, each multiplication takes longer and longer, amounting to a time complexity of ~O(n^2).
+
+        Using binomial expoentiation, we only need to do at most log2(n) multiplications.  Moreover, by saving the base^2 and using that to multiply
+        itself each time, it saves the n-1 multiplications needed to do exponents.  These 2 factors combine reduces the time complexity down to
+        ~O(log(n)).
+        '''
         result = 1
         while exp != 0:
             if exp%2 == 1 :
-                result = (result*(base**base_exp%mod))%mod
+                result = (result*base)%mod
 
-            base_exp *= 2
+            base = (base*base)%mod
 
             exp //= 2
 
@@ -92,6 +100,6 @@ class RSA:
     
 
 test = RSA()
-print(test.pow(3,2,4))
+print(test.pow(3,10000000000,7))
 print(test.p)
 print(test.q)
