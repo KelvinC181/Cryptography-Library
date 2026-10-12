@@ -9,7 +9,17 @@ class RSA:
         self.privateKey = (self.n, self.private_key_generation())
 
     def pow(self, base, exp, mod):
-        return base**exp - (base**exp//mod)*mod
+        base_exp = 1
+        result = 1
+        while exp != 0:
+            if exp%2 == 1 :
+                result = result*(base**base_exp%mod)
+
+            base_exp *= 2
+
+            exp //= 2
+
+        return result
 
     def private_key_generation(self):
         '''
@@ -85,4 +95,3 @@ test = RSA()
 print(test.pow(3,2,4))
 print(test.p)
 print(test.q)
-print(3120%17)
