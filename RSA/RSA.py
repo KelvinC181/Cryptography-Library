@@ -17,6 +17,16 @@ class RSA:
         Using binomial expoentiation, we only need to do at most log2(n) multiplications.  Moreover, by saving the base^2 and using that to multiply
         itself each time, it saves the n-1 multiplications needed to do exponents.  These 2 factors combine reduces the time complexity down to
         ~O(log(n)).
+
+        applying it to mod arithmatic.
+        this works because (A*B)modM = (AmodM * BmodM)modM
+        in each iteration, we basically iterate through the binary representation of exp starting from the 2^0 unit:
+        
+        if the binary is 1:
+            result = (result*base)%mod = (true_base^k modM * true_base^j modM)modM = (true_base^(k+j))modM
+
+        base = (base*base)%mod = (true_base^k modM * true_base^k modM)modM = (true_base^2k)modM
+
         '''
         result = 1
         while exp != 0:
@@ -84,10 +94,10 @@ class RSA:
         return s%B
 
     def encrypt(self,message):
-        return (message**65537)%self.n
+        return self.pow(message,self.publicKey[1],self.n)
 
     def decrypt(self,encrypted):
-        return (encrypted**self.privateKey[1])%self.n   
+        return self.pow(encrypted,self.privateKey[1],self.n)
 
     
     def prime_generator(self):
