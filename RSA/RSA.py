@@ -13,7 +13,7 @@ class RSA:
         result = 1
         while exp != 0:
             if exp%2 == 1 :
-                result = result*(base**base_exp%mod)
+                result = (result*(base**base_exp%mod))%mod
 
             base_exp *= 2
 
