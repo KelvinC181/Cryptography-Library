@@ -15,6 +15,7 @@ The first difficuly during implementation was generating the d value for the pri
 Here is where I had to learn the new concept of the extended euclidian algorithm, which is an extension of the euclidian algorithm used to find the gcd of 2 numbers.  When the extended algorithm is applied specifically to 2 co-prime numbers, the resulting sA + tB = 1 ( de + t(euler's totient function of n) = 1 ) gives de = 1 (mod (euler's totient function of n)) which by definition is the multiplicative inverse of e, giving us the correct value of d.
 
 ## Progress
-- currently the encrypt and decrypt runs into runtime error, suspecting because using % on overly large number is taking too long, pending to implement own pow() function (yes there is an unbuilt pow() in python library but thats not fun)
+- currently the encrypt and decrypt runs into runtime error, suspecting because using % on overly large number is taking too long, pending to implement own pow() function (yes there is an unbuilt pow() in python library but thats not fun) -> fixed by implementing own pow function
 - the random prime number generator is not efficient at bigger numbers which is used in practical enviroments and not truely random, researching better way to build it
-
+- add padding
+- create hashing function for strings
