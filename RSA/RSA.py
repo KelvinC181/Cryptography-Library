@@ -1,6 +1,7 @@
 import random
 import sympy
 from tools.multInverse import multInverse
+from tools.stringTranslation import stringTranslation
 
 class RSA:
     def __init__(self):
@@ -65,7 +66,13 @@ class RSA:
     
 
 test = RSA()
-print(test.pow(3,10000000000,7))
+
 encrypted_message = test.encrypt(100)
 print(encrypted_message)
 print(test.decrypt(encrypted_message))
+
+translator = stringTranslation()
+message = "abc"
+encrypted_message2 = test.encrypt(translator.string_to_ascii(message))
+print(encrypted_message2)
+print(translator.ascii_to_string(test.decrypt(encrypted_message2)))

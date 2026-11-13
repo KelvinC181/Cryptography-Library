@@ -38,11 +38,11 @@ class stringTranslation:
 to do:
 learn bitwise operations to make this O(N) instead of O(N^2)
 """
+if __name__ == "__main__":
+    test = stringTranslation()
+    trail = test.string_to_ascii("abc def")
+    print(test.string_to_ascii("abcdefghijk"))
+    print(trail)
+    print(test.ascii_to_string(trail))
 
-test = stringTranslation()
-trail = test.string_to_ascii("abc def")
-print(test.string_to_ascii("abcdefghijk"))
-print(trail)
-print(test.ascii_to_string(trail))
-
-        
+            
